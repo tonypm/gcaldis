@@ -1,5 +1,7 @@
 require "gcaldis/version"
+require "gcaldis/google_client"
 
 module Gcaldis
-  # Your code goes here...
+  #@google_api=GoogleClient.new
+  
 end

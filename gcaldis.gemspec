@@ -6,10 +6,10 @@ require 'gcaldis/version'
 Gem::Specification.new do |spec|
   spec.name          = "gcaldis"
   spec.version       = Gcaldis::VERSION
-  spec.authors       = ["TODO: Write your name"]
-  spec.email         = ["TODO: Write your email address"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.authors       = ["Tony Martin"]
+  spec.email         = ["tonypmgg@gmail.com"]
+  spec.summary       = %q{Display events from a user's google calendar'}
+  spec.description   = %q{Uses the Google Calendar API to display events from the user's google calendar'}
   spec.homepage      = ""
   spec.license       = "MIT"
 
