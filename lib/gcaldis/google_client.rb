@@ -67,5 +67,21 @@ module Gcaldis
       end
       return response.items.length
     end
+    
+    def events_for_week(date=Date.today)
+      start_day=(date-date.wday)
+      calendar_id = 'primary'
+      response = @service.list_events(calendar_id,
+                                       max_results: 100,
+                                       single_events: true,
+                                       order_by: 'startTime',
+                                       time_min: start_day.to_time.iso8601,
+                                       time_max: (start_day+7).to_time.iso8601)
+      response.items
+    end
+    
+    
+    
   end
+  
 end
