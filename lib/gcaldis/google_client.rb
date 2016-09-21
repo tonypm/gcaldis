@@ -5,6 +5,8 @@ module Gcaldis
     require 'googleauth/stores/file_token_store'
     require 'fileutils'
 
+    attr_reader :calendars, :calendar_id
+    
     OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'
     APPLICATION_NAME = 'Gcaldis'
     CLIENT_SECRETS_PATH = File.join(Dir.home, '.credentials', 'gcaldis', 'client_secret.json')
@@ -12,12 +14,15 @@ module Gcaldis
                                  "gcaldis_token.yaml")
     SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
 
+    CALENDAR_NAME_PATH = File.join(Dir.home, '.credentials', 'gcaldis', 'calendar_name.yml')
     
     def initialize
       # Initialize the Google Calendar API
       @service = Google::Apis::CalendarV3::CalendarService.new
       @service.client_options.application_name = APPLICATION_NAME
       @service.authorization = authorize
+      @calendars= YAML.load(File.read CALENDAR_NAME_PATH)
+      @calendar_id=@calendars['andy']
     end
     
     
@@ -52,8 +57,8 @@ module Gcaldis
 
     def get_events
       # Fetch the next 10 events for the user
-      calendar_id = 'primary'
-      response = @service.list_events(calendar_id,
+
+      response = @service.list_events(@calendar_id,
                                      max_results: 10,
                                      single_events: true,
                                      order_by: 'startTime',
@@ -70,8 +75,7 @@ module Gcaldis
     
     def events_for_week(date=Date.today)
       start_day=(date-date.wday)
-      calendar_id = 'primary'
-      response = @service.list_events(calendar_id,
+      response = @service.list_events(@calendar_id,
                                        max_results: 100,
                                        single_events: true,
                                        order_by: 'startTime',
