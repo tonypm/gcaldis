@@ -22,5 +22,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
   
   spec.add_dependency 'google-api-client'
+  spec.add_dependency 'gtk3'
   
 end

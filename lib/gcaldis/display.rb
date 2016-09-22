@@ -13,12 +13,9 @@ module Gcaldis
               Gtk.main_quit 
           end
           
-          
           init_ui
           
-          
-          
-          set_default_size 500, 300
+          set_default_size 1200, 1040
           set_window_position(:center)
           
           show_all
@@ -38,19 +35,13 @@ module Gcaldis
       def simple_css
         # adding simple css
         css = <<-EOT
-                #MyLabel {
-                  background-color: #00FF00;
-                  border-style: solid;
-                  border-width: 4px;
-                  border-color: #fff;
-                  
-                }
                 #MyWindow {
-                background-color: #FF0000;
+                background-color: #CCCCCC;
                  }
-                GtkLabel {
+                GtkBox {
                   background-color: #0000FF;
                 }
+              
           EOT
           css_provider=Gtk::CssProvider.new
           css_provider.load :data=>css
@@ -62,60 +53,30 @@ module Gcaldis
       
       
       def init_ui
-      
+
+          grid = Gtk::Grid.new 
+          grid.column_homogeneous=true
+         
           table = Gtk::Table.new 2, 2, true
           
-          info = Gtk::Label.new("Information")
-          ques = Gtk::Button.new(:label => "Question")
-          grid = Gtk::Grid.new
+          b1=Gtk::Box.new Gtk::Orientation::VERTICAL
+          b2=Gtk::Box.new Gtk::Orientation::VERTICAL
           
+          #grid.attach b1, 0,1,1,1
+          #grid.attach b2, 4,7,1,1
 
-  
+          label1 = Gtk::Label.new('Label 1')
+          label2 = Gtk::Label.new('Label 1')
+          
+          #grid.attach label1, 0,0,1,1
+          #b1.pack_start(label1, :expand => true, :fill => true, :padding => 0)
+          #b2.pack_start(label2, :expand => true, :fill => true, :padding => 0)
 
-          
-          ques.signal_connect "clicked" do
-              on_ques
-          end
-          
-          table.attach info, 0, 1, 0, 1
-          table.attach grid, 1, 2, 0, 2
-          table.attach ques, 0, 1, 1, 2
-          #table.attach erro, 1, 2, 1, 2
-          
-          
-          grid_attach(grid)
-          grid.set_row_spacing 10
-          
-          add table
+          table.attach label1, 0, 1, 0, 1
 
-          
+
       end
-      
- 
-      def grid_add(grid)
-        child1=Gtk::Label.new("First Child")
-        grid.add child1
-        child2=Gtk::Label.new("Second Child")
-        grid.add child2
-      end
-      
-      def grid_attach(grid)
-        child1=Gtk::Label.new("First Child")
-        child1.set_name "MyLabel"
-        grid.attach child1, 0,0,1,1
-        child2=Gtk::Label.new("Second Child")
-        grid.attach child2, 0,1,1,1
-      end
-      
-      
-      def on_ques
-          # deprecated -> Gtk::MessageDialog::QUESTION, you should use :question
-          md = Gtk::MessageDialog.new(:parent => self, :flags => :destroy_with_parent,
-                                      :type => :question, :buttons_type => :close,
-                                      :message => "Are you sure to quit?")
-          md.run
-          md.destroy
-      end
+
       
 
     end
