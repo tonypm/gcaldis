@@ -15,7 +15,7 @@ module Gcaldis
           
           init_ui
           
-          set_default_size 1200, 1040
+          set_default_size 1800, 1040
           set_window_position(:center)
           
           show_all
@@ -39,7 +39,7 @@ module Gcaldis
                 background-color: #CCCCCC;
                  }
                 GtkBox {
-                  background-color: #0000FF;
+                  background-color: #CCFFFF;
                 }
               
           EOT
@@ -54,27 +54,38 @@ module Gcaldis
       
       def init_ui
 
-          grid = Gtk::Grid.new 
-          grid.column_homogeneous=true
-         
-          table = Gtk::Table.new 2, 2, true
+        grid = Gtk::Grid.new 
+        grid.set_name 'MyGrid'
+        #grid.column_homogeneous=true
+        grid.expand=true
+        
+        frame = Gtk::Frame.new
+        frame.set_hexpand true
+        frame.set_vexpand true
+        grid.attach frame, 0, 0, 7, 4
           
-          b1=Gtk::Box.new Gtk::Orientation::VERTICAL
-          b2=Gtk::Box.new Gtk::Orientation::VERTICAL
-          
-          #grid.attach b1, 0,1,1,1
-          #grid.attach b2, 4,7,1,1
-
-          label1 = Gtk::Label.new('Label 1')
-          label2 = Gtk::Label.new('Label 1')
-          
-          #grid.attach label1, 0,0,1,1
-          #b1.pack_start(label1, :expand => true, :fill => true, :padding => 0)
-          #b2.pack_start(label2, :expand => true, :fill => true, :padding => 0)
-
-          table.attach label1, 0, 1, 0, 1
+        table = Gtk::Table.new 2, 2, true
+        
+        #box1 = Gtk::Box.new(Gtk::Orientation::VERTICAL)
+        #box28 = Gtk::Box.new(Gtk::Orientation::VERTICAL)
+        
+        box=[]
+        0.upto 27 do |i|
+          box[i] = Gtk::Box.new(Gtk::Orientation::VERTICAL)
+          grid.attach box[i], i.div(4), i % 4,1,1
+        end
 
 
+        label0 = Gtk::Label.new('Label 1')
+        label27 = Gtk::Label.new('Label 2')
+        
+        #grid.attach label1, 0,0,1,1
+        box[0].pack_start(label0, :expand => true, :fill => true, :padding => 0)
+        box[27].pack_start(label27, :expand => true, :fill => true, :padding => 0)
+
+        #table.attach label1, 0, 1, 0, 1
+
+        add grid
       end
 
       
