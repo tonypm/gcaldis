@@ -43,9 +43,7 @@ module Gcaldis
                 GtkBox {
                   background-color: #CCFFFF;
                 }
-                GtkLabel {
-                  background-color: #FFDDDD;
-                }
+
           EOT
           css_provider=Gtk::CssProvider.new
           css_provider.load :data=>css
@@ -62,6 +60,7 @@ module Gcaldis
         grid.set_name 'MyGrid'
         grid.set_row_spacing 2
         grid.set_column_spacing 2
+        grid.column_homogeneous=true
         grid.expand=true
         
         frame = Gtk::Frame.new
@@ -72,7 +71,9 @@ module Gcaldis
         days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
         
         days.each_with_index do |d,i|
-          grid.attach Gtk::Label.new(d), i,0,1,1
+          l=Gtk::Label.new(d)
+          l.set_xalign 0
+          grid.attach l, i,0,1,1
         end
         
         box=[]
@@ -83,7 +84,10 @@ module Gcaldis
           top=i.div(7)+1
           puts "#{left},#{top}"
           box[i] = Gtk::Box.new(Gtk::Orientation::VERTICAL)
-          box[i].pack_start(Gtk::Label.new((@calendar_start+i).mday.to_s), :expand => false, :fill => true, :padding => 4)
+          l=Gtk::Label.new((@calendar_start+i).mday.to_s)
+          l.set_xalign 0
+          
+          box[i].pack_start(l, :expand => false, :fill => true, :padding => 4)
           
           grid.attach box[i], left, top, 1, 1
         end
@@ -97,6 +101,7 @@ module Gcaldis
         label7c = Gtk::Label.new('Label 7c')
         label7d = Gtk::Label.new('Label 7d')
         label7e = Gtk::Label.new('Label 7e this is quite a long and biggish appointment description')
+        label7e.set_line_wrap true
 
         
 
