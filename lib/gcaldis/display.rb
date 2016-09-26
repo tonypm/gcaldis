@@ -5,9 +5,11 @@ module Gcaldis
     class RubyApp < Gtk::Window
   
       def initialize
+        @first_day_of_month=(Date.today-Date.today.mday+1)
+        @calendar_start=@first_day_of_month-@first_day_of_month.wday
           super
           set_name('MyWindow')
-          set_title "Messages"
+          set_title "Andy's Calendar - #{Date::MONTHNAMES[Date.today.month]} #{Date.today.year}"
           
           signal_connect "destroy" do 
               Gtk.main_quit 
@@ -41,7 +43,9 @@ module Gcaldis
                 GtkBox {
                   background-color: #CCFFFF;
                 }
-              
+                GtkLabel {
+                  background-color: #FFDDDD;
+                }
           EOT
           css_provider=Gtk::CssProvider.new
           css_provider.load :data=>css
@@ -56,34 +60,55 @@ module Gcaldis
 
         grid = Gtk::Grid.new 
         grid.set_name 'MyGrid'
-        #grid.column_homogeneous=true
+        grid.set_row_spacing 2
+        grid.set_column_spacing 2
         grid.expand=true
         
         frame = Gtk::Frame.new
         frame.set_hexpand true
         frame.set_vexpand true
-        grid.attach frame, 0, 0, 7, 4
+        grid.attach frame, 0, 1, 7, 5
           
-        table = Gtk::Table.new 2, 2, true
+        days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
         
-        #box1 = Gtk::Box.new(Gtk::Orientation::VERTICAL)
-        #box28 = Gtk::Box.new(Gtk::Orientation::VERTICAL)
+        days.each_with_index do |d,i|
+          grid.attach Gtk::Label.new(d), i,0,1,1
+        end
         
         box=[]
-        0.upto 27 do |i|
+
+        
+        0.upto 34 do |i|
+          left=(i % 7)
+          top=i.div(7)+1
+          puts "#{left},#{top}"
           box[i] = Gtk::Box.new(Gtk::Orientation::VERTICAL)
-          grid.attach box[i], i.div(4), i % 4,1,1
+          box[i].pack_start(Gtk::Label.new((@calendar_start+i).mday.to_s), :expand => false, :fill => true, :padding => 4)
+          
+          grid.attach box[i], left, top, 1, 1
         end
 
 
-        label0 = Gtk::Label.new('Label 1')
-        label27 = Gtk::Label.new('Label 2')
-        
-        #grid.attach label1, 0,0,1,1
-        box[0].pack_start(label0, :expand => true, :fill => true, :padding => 0)
-        box[27].pack_start(label27, :expand => true, :fill => true, :padding => 0)
+        label0a = Gtk::Label.new('Label 0a')
+        label0b = Gtk::Label.new('Label 0b')
+        label0c = Gtk::Label.new('Label 0c')
+        label7a = Gtk::Label.new('Label 7a')
+        label7b = Gtk::Label.new('Label 7b')
+        label7c = Gtk::Label.new('Label 7c')
+        label7d = Gtk::Label.new('Label 7d')
+        label7e = Gtk::Label.new('Label 7e this is quite a long and biggish appointment description')
 
-        #table.attach label1, 0, 1, 0, 1
+        
+
+        
+        box[0].pack_start(label0a, :expand => false, :fill => false, :padding => 4)
+        box[0].pack_start(label0b, :expand => false, :fill => false, :padding => 4)
+        box[0].pack_start(label0c, :expand => false, :fill => false, :padding => 4)
+        box[7].pack_start(label7a, :expand => false, :fill => false, :padding => 4)
+        box[7].pack_start(label7b, :expand => false, :fill => false, :padding => 4)
+        box[7].pack_start(label7c, :expand => false, :fill => false, :padding => 4)
+        box[7].pack_start(label7d, :expand => false, :fill => false, :padding => 4)
+        box[7].pack_start(label7e, :expand => false, :fill => false, :padding => 4)
 
         add grid
       end
